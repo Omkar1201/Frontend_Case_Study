@@ -1,6 +1,7 @@
 // src/components/AdminPanel.js
 import React, { useContext, useState, useEffect } from 'react';
 import { ProfileContext } from '../ProfileContext';
+import { Link } from 'react-router-dom';
 
 const AdminPanel = () => {
   const { profiles, setProfiles, handleDelete } = useContext(ProfileContext);
@@ -39,7 +40,7 @@ const AdminPanel = () => {
     e.preventDefault();
     if (newProfile.name && newProfile.photo && newProfile.description && newProfile.address) {
       setProfiles([...profiles, { id: profiles.length + 1, ...newProfile }]);
-      setNewProfile({ name: '', photo: '', description: '', address: '' });
+      setNewProfile({ name: '', photo: '', description: '', address: '', contact: '', interests: '',projects: ''});
       setShowForm(false);
     } else {
       alert('Please fill out all fields before submitting.');
@@ -59,7 +60,7 @@ const AdminPanel = () => {
         profile.id === editingProfileId ? { ...profile, ...newProfile } : profile
       );
       setProfiles(updatedProfiles);
-      setNewProfile({ name: '', photo: '', description: '', address: '' });
+      setNewProfile({ id: profiles.length + 1, name: '', photo: '', description: '', address: '', contact: '', interests: '',projects: '' })
       setEditingProfileId(null);
       setShowForm(false);
     }
@@ -68,13 +69,15 @@ const AdminPanel = () => {
   return (
     <div className="p-6 bg-gradient-to-r from-blue-50 to-blue-100 min-h-screen">
       <h2 className="text-3xl font-extrabold text-center text-blue-600 mb-6">Admin Panel</h2>
-      <button
-        onClick={() => setShowForm(!showForm)}
-        className="mb-6 px-6 py-3 bg-blue-600 text-white rounded-lg shadow-lg hover:bg-blue-700 transition-all duration-300"
-      >
-        {showForm ? (editingProfileId ? 'Cancel Edit' : 'Cancel') : 'Add Profile'}
-      </button>
-
+      <div className=' flex justify-between '>
+        <button
+          onClick={() => setShowForm(!showForm)}
+          className="mb-6 px-6 py-3 bg-blue-600 text-white rounded-lg shadow-lg hover:bg-blue-700 transition-all duration-300"
+        >
+          {showForm ? (editingProfileId ? 'Cancel Edit' : 'Cancel') : 'Add Profile'}
+        </button>
+        <button className='mb-6 px-6 py-3 bg-blue-600 text-white rounded-lg shadow-lg hover:bg-blue-700 transition-all duration-300'><Link to='/'>Home Page</Link></button>
+      </div>
       {showForm && (
         <form onSubmit={editingProfileId ? handleUpdate : handleAdd} className="bg-white p-6 rounded-lg shadow-md mb-8 border border-gray-200">
           <h3 className="text-xl font-semibold text-gray-800 mb-4">{editingProfileId ? 'Edit Profile' : 'Add New Profile'}</h3>
@@ -113,6 +116,23 @@ const AdminPanel = () => {
             required
             className="p-2 border rounded-md border-gray-300 w-full mb-6 focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
+           <input
+          type="text"
+          name="contact"
+          placeholder="Contact Information"
+          value={newProfile.contact}
+          onChange={handleUpdate}
+          className="p-2 border rounded-md border-gray-300 w-full mb-6 focus:outline-none focus:ring-2 focus:ring-blue-400"
+        />
+        <input
+          type="text"
+          name="interests"
+          placeholder="Interests (comma-separated)"
+          value={newProfile.interests}
+          onChange={handleUpdate}
+          className="p-2 border rounded-md border-gray-300 w-full mb-6 focus:outline-none focus:ring-2 focus:ring-blue-400"
+        />
+        
           <button
             type="submit"
             className="w-full px-4 py-2 bg-green-600 text-white rounded-lg shadow-lg hover:bg-green-700 transition-all duration-300"

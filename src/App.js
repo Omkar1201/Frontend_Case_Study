@@ -4,9 +4,11 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-d
 import ProfileList from './components/ProfileList';
 import AdminPanel from './components/AdminPanel';
 import AdminLogin from './components/AdminLogin';
+import ProfileDetails from './components/ProfileDetails'; // Import ProfileDetails
 import { ProfileProvider } from './ProfileContext';
 import { AuthProvider, useAuth } from './AuthContext'; // Import AuthContext
 import './index.css'
+
 const PrivateRoute = ({ children }) => {
   const { isAuthenticated } = useAuth();
   return isAuthenticated ? children : <Navigate to="/admin/login" />; // Redirect to login if not authenticated
@@ -25,6 +27,7 @@ const App = () => {
                 <AdminPanel />
               </PrivateRoute>
             } />
+            <Route path="/profile/:id" element={<ProfileDetails />} /> {/* Route for profile details */}
           </Routes>
         </Router>
       </ProfileProvider>
