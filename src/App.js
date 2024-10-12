@@ -1,25 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+// src/App.js
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
+import ProfileList from './components/ProfileList';
+import AdminPanel from './components/AdminPanel';
+import AdminLogin from './components/AdminLogin';
+import { ProfileProvider } from './ProfileContext';
+import { AuthProvider, useAuth } from './AuthContext'; // Import AuthContext
+import './index.css'
+const PrivateRoute = ({ children }) => {
+  const { isAuthenticated } = useAuth();
+  return isAuthenticated ? children : <Navigate to="/admin/login" />; // Redirect to login if not authenticated
+};
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <AuthProvider>
+      <ProfileProvider>
+        <Router>
+          <Routes>
+            <Route path="/" element={<ProfileList />} />
+            <Route path="/admin/login" element={<AdminLogin />} />
+            <Route path="/admin" element={
+              <PrivateRoute>
+                <AdminPanel />
+              </PrivateRoute>
+            } />
+          </Routes>
+        </Router>
+      </ProfileProvider>
+    </AuthProvider>
   );
-}
+};
 
 export default App;
