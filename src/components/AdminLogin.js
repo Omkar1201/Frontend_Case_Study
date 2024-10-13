@@ -35,7 +35,7 @@ const AdminLogin = () => {
           />
           <input
             type="password"
-            placeholder="Password: admin"
+            placeholder="Password: admin321"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             className="mb-4 p-2 border border-gray-300 rounded w-full"
