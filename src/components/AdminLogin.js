@@ -12,7 +12,7 @@ const AdminLogin = () => {
   const handleLogin = (e) => {
     e.preventDefault();
     // Check credentials
-    if (username === 'admin' && password === 'admin') {
+    if (username === 'admin' && password === 'admin321') {
       login(); // Set isAuthenticated to true
       navigate('/admin'); // Redirect to Admin Panel
     } else {
